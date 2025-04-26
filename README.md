@@ -2,7 +2,7 @@
 
 A simple Tic-Tac-Toe game created using HTML5, CSS3, and JavaScript.
 
-## How to Play
+## How to Play 
 - Two players take turns (X and O).
 - Click an empty square to make a move.
 - The first player to align three symbols horizontally, vertically, or diagonally wins.
@@ -14,4 +14,4 @@ A simple Tic-Tac-Toe game created using HTML5, CSS3, and JavaScript.
 - Vanilla JavaScript
 
 ## Author
-Your Name or Nickname
+Mateusz Pępek 💻
