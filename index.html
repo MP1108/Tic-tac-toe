@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kółko i Krzyżyk</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to bottom, #74ebd5, #acb6e5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+        #status {
+            font-size: 1.5em;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        #plansza {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 8px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 324px;
+        }
+        .pole {
+            width: 100px;
+            height: 100px;
+            background: #f1f1f1;
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-size: 50px;
+            line-height: 100px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .pole:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .pole:not(:empty) {
+            cursor: not-allowed;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 1.1em;
+            background: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background: #ff4f41;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 400px) {
+            #plansza {
+                grid-template-columns: repeat(3, 80px);
+                width: 264px;
+            }
+            .pole {
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+                font-size: 40px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Kółko i Krzyżyk</h1>
+    <div id="status">Tura: X</div>
+    <div id="plansza">
+        <div class="pole" onclick="ruch(0)"></div>
+        <div class="pole" onclick="ruch(1)"></div>
+        <div class="pole" onclick="ruch(2)"></div>
+        <div class="pole" onclick="ruch(3)"></div>
+        <div class="pole" onclick="ruch(4)"></div>
+        <div class="pole" onclick="ruch(5)"></div>
+        <div class="pole" onclick="ruch(6)"></div>
+        <div class="pole" onclick="ruch(7)"></div>
+        <div class="pole" onclick="ruch(8)"></div>
+    </div>
+    <button onclick="reset()">Nowa gra</button>
+
+    <script>
+        let plansza = ['', '', '', '', '', '', '', '', ''];
+        let gracz = 'X';
+        let graTrwa = true;
+
+        function ruch(index) {
+            if (plansza[index] === '' && graTrwa) {
+                plansza[index] = gracz;
+                document.getElementsByClassName('pole')[index].textContent = gracz;
+                
+                if (sprawdzWygrana()) {
+                    document.getElementById('status').textContent = `Wygrał ${gracz}!`;
+                    graTrwa = false;
+                    return;
+                }
+                
+                if (!plansza.includes('')) {
+                    document.getElementById('status').textContent = 'Remis!';
+                    graTrwa = false;
+                    return;
+                }
+                
+                gracz = gracz === 'X' ? 'O' : 'X';
+                document.getElementById('status').textContent = `Tura: ${gracz}`;
+            }
+        }
+
+        function sprawdzWygrana() {
+            const wygrane = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for (let kombinacja of wygrane) {
+                let a = kombinacja[0];
+                let b = kombinacja[1];
+                let c = kombinacja[2];
+                if (plansza[a] === gracz && plansza[b] === gracz && plansza[c] === gracz) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function reset() {
+            plansza = ['', '', '', '', '', '', '', '', ''];
+            gracz = 'X';
+            graTrwa = true;
+            let pola = document.getElementsByClassName('pole');
+            for (let pole of pola) {
+                pole.textContent = '';
+            }
+            document.getElementById('status').textContent = 'Tura: X';
+        }
+    </script>
+</body>
+</html>
